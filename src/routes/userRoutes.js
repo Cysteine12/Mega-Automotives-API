@@ -17,9 +17,15 @@ router.patch(
 )
 
 router.patch(
-    '/upload-photo',
+    '/profile/photo',
     passport.authenticate('jwt', { session: false }),
-    userController.uploadPhoto
+    userController.updateProfilePhoto
+)
+
+router.post(
+    '/generate-signature',
+    passport.authenticate('jwt', { session: false }),
+    userController.generateSignature
 )
 
 router.delete(

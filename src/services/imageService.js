@@ -1,6 +1,6 @@
 import cloudinary from '../config/cloudinary.js'
 
-const signuploadform = () => {
+const signuploadform = (folder) => {
     const timestamp = Math.round(newDate.getTime() / 1000)
     const api_secret = cloudinary.config().api_secret
 
@@ -8,7 +8,7 @@ const signuploadform = () => {
         {
             timestamp: timestamp,
             eager: 'c_pad,h_300,w_400|c_crop,h_200,w_260',
-            folder: 'mega_automotives',
+            folder: folder,
         },
         api_secret
     )

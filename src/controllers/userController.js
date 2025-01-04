@@ -52,15 +52,54 @@ const updateProfile = async (req, res, next) => {
     }
 }
 
-const uploadPhoto = () => {
+const updateProfilePhoto = async (req, res, next) => {
     try {
-        const { signature, timestamp } = imageService.signuploadform()
+        const { _id } = req.user
+        const newUser = {
+            photo: req.body.photo,
+        }
+
+        let updatedUser = await User.findByIdAndUpdate(_id, newUser)
+
+        if (!updatedUser) {
+            throw new NotFoundError('User not found')
+        }
+
+        updatedUser = {
+            _id: updatedUser._id,
+            name: {
+                firstName: updatedUser.name.firstName,
+                lastName: updatedUser.name.lastName,
+            },
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            photo: updatedUser.photo,
+            role: updatedUser.role,
+            isVerified: updatedUser.isVerified,
+            createdAt: updatedUser.createdAt,
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Profile photo updated successfully',
+            user: updatedUser,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const generateSignature = (req, res, next) => {
+    try {
+        const { folder } = req.body
+
+        const { signature, timestamp } = imageService.signuploadform(folder)
 
         res.status(200).json({
             signature: signature,
             timestamp: timestamp,
             cloudname: process.env.CLOUDINARY_CLOUD_NAME,
-            apiKey: proccess.env.CLOUDINARY_API_KEY,
+            api_key: proccess.env.CLOUDINARY_API_KEY,
         })
     } catch (err) {
         next(err)
@@ -89,6 +128,7 @@ const deleteProfile = async (req, res, next) => {
 export default {
     getProfile,
     updateProfile,
-    uploadPhoto,
+    updateProfilePhoto,
+    generateSignature,
     deleteProfile,
 }
