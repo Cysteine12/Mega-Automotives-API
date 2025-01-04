@@ -5,14 +5,15 @@ const sendWelcomeMailFromAdmin = async (savedUser) => {
         to: savedUser.email,
         subject: 'Welcome to the Mega-Automotives family!',
         html: `<h3>Hello ${savedUser.name.firstName},</h3>
-            <br/><br/>
-            Welcome to Mega-Automotives. It's great to meet you!
+            <br/>
+            Welcome to Mega-Automotives. It's great to have you on our team!
             <br/><br/>
             Your user account has been created and we are delighted to have you.
             <br/><br/>
             You can proceed to contact the company admin for your details and sign-in here:
+            <br/><br/>
             <a href="${process.env.ORIGIN_URL}/login" 
-                style="background:blue;color:#fff;padding:10px;font-size:20px;"
+                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
             >
                 Sign In
             </a>
@@ -33,7 +34,7 @@ const sendWelcomeMail = async (savedUser, verifyUrl) => {
             please confirm that this is the right address to use for your new account.
             Please use this verification link to get started on Mega-Automotives:
             <br/>
-            <a href="${verifyUrl}" style="background:blue;color:#fff;padding:10px;font-size:20px;">
+            <a href="${verifyUrl}" style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;">
                 Verify Email
             </a>
             This link expires after 24 hours. If you did not request this, kindly ignore.
@@ -52,8 +53,8 @@ const sendForgotPasswordMail = async (email, resetUrl) => {
         html: `<h3>Dear valued user,</h3>
             You are receiving this email because you requested a password reset.
             Please use the following link to reset your password:
-            <br/>
-            <a href="${resetUrl}" style="background:blue;color:#fff;padding:10px;font-size:20px;">
+            <br/><br/>
+            <a href="${resetUrl}" style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;">
                 Reset Password
             </a>
             <br/><br/>
@@ -71,7 +72,7 @@ const sendEmailVerificationMail = async (user) => {
         to: user.email,
         subject: 'Welcome to the Mega-Automotives family!',
         html: `<h3>Hey ${user.name.firstName},</h3>
-            <br/><br/>
+            <br/>
             Welcome to Mega-Automotives. It's great to meet you!
             <br/><br/>
             Your email has been confirmed and we are delighted to have you as a customer.
@@ -94,7 +95,7 @@ const sendEmailVerificationMail = async (user) => {
             <br/><br/>
             To know more about our services:
             <a href="${process.env.ORIGIN_URL}/login" 
-                style="background:blue;color:#fff;padding:10px;font-size:20px;"
+                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
             >
                 Explore
             </a>
@@ -110,7 +111,7 @@ const sendNewBookingMail = async (user, savedBooking) => {
         to: user.email,
         subject: `Your Vehicle ${savedBooking.assignedToModel} has been booked`,
         html: `<h3>Hello, ${user.name.firstName}</h3>
-            <br/><br/>
+            <br/>
             Thank you for booking with Mega-Automotives.
             <br/>
             Your vehicle ${savedBooking.assignedToModel} has been booked successfully.
@@ -118,7 +119,7 @@ const sendNewBookingMail = async (user, savedBooking) => {
             in the next few hours once the booking has been confirmed.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${savedBooking._id}" 
-                style="background:blue;color:#fff;padding:10px;font-size:20px;"
+                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
             >
                 Check Booking
             </a>
@@ -140,13 +141,13 @@ const sendBookingStatusMail = async (updatedBooking) => {
         to: updatedBooking.owner.email,
         subject: `Your Vehicle ${updatedBooking.assignedToModel} booking is now ${updatedBooking.status}`,
         html: `<h3>Dear ${updatedBooking.owner.name.firstName},</h3>
-            <br/><br/>
+            <br/>
             Thank you for booking with Mega-Automotives.
             <br/>
             Your vehicle ${updatedBooking.assignedToModel} booking record is now ${updatedBooking.status}.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${updatedBooking._id}" 
-                style="background:blue;color:#fff;padding:10px;font-size:20px;"
+                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
             >
                 Check Booking
             </a>
@@ -170,13 +171,13 @@ const sendPaymentVerificationMail = async (email, savedPayment) => {
         to: email,
         subject: `${savedPayment.assignedToModel} order payment ${savedPayment.status}`,
         html: `<h3>Dear valued user,</h3>
-            <br/><br/>
+            <br/>
             Thank you for placing your order with Mega-Automotives.
             <br/>
             Your ${savedPayment.assignedToModel} order payment is now ${savedPayment.status}.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${savedPayment._id}" 
-                style="background:blue;color:#fff;padding:10px;font-size:20px;"
+                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
             >
                 View Payment
             </a>
