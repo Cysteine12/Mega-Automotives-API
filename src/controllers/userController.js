@@ -22,7 +22,9 @@ const updateProfile = async (req, res, next) => {
             phone: req.body.phone,
         }
 
-        let updatedUser = await User.findByIdAndUpdate(_id, newUser)
+        let updatedUser = await User.findByIdAndUpdate(_id, newUser, {
+            new: true,
+        })
 
         if (!updatedUser) {
             throw new NotFoundError('User not found')
@@ -59,7 +61,9 @@ const updateProfilePhoto = async (req, res, next) => {
             photo: req.body.photo,
         }
 
-        let updatedUser = await User.findByIdAndUpdate(_id, newUser)
+        let updatedUser = await User.findByIdAndUpdate(_id, newUser, {
+            new: true,
+        })
 
         if (!updatedUser) {
             throw new NotFoundError('User not found')
@@ -91,15 +95,16 @@ const updateProfilePhoto = async (req, res, next) => {
 
 const generateSignature = (req, res, next) => {
     try {
-        const { folder } = req.body
+        const paramsToSign = req.body
 
-        const { signature, timestamp } = imageService.signuploadform(folder)
+        const { signature, timestamp } =
+            imageService.signuploadform(paramsToSign)
 
         res.status(200).json({
             signature: signature,
             timestamp: timestamp,
-            cloudname: process.env.CLOUDINARY_CLOUD_NAME,
-            api_key: proccess.env.CLOUDINARY_API_KEY,
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
         })
     } catch (err) {
         next(err)
