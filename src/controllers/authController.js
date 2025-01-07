@@ -121,6 +121,51 @@ const login = async (req, res, next) => {
     }
 }
 
+const googleLogin = async (req, res, next) => {
+    try {
+        const newUser = req.user
+
+        let user = await User.findOne({ email: newUser.email }).lean()
+        if (!user) {
+            user = new User({ ...newUser })
+            const savedUser = await user.save()
+
+            await emailService.sendEmailVerificationMail(savedUser)
+            user = savedUser
+        }
+
+        user = {
+            _id: user._id,
+            name: {
+                firstName: user.name.firstName,
+                lastName: user.name.lastName,
+            },
+            email: user.email,
+            phone: user.phone,
+            photo: user.photo,
+            role: user.role,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt,
+        }
+
+        const payload = { _id: user._id }
+
+        const accessToken = generateAccessToken(payload)
+        const refreshToken = generateRefreshToken(payload)
+
+        res.cookie('accessToken', accessToken, accessTokenCookieConfig)
+        res.cookie('refreshToken', refreshToken, refreshTokenCookieConfig)
+
+        res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            user: user,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
 const forgotPassword = async (req, res, next) => {
     try {
         const { email } = req.body
@@ -292,6 +337,7 @@ const logout = (req, res, next) => {
 export default {
     register,
     login,
+    googleLogin,
     forgotPassword,
     resetPassword,
     refreshToken,

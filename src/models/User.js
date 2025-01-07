@@ -21,12 +21,12 @@ const userSchema = new Schema(
         password: {
             type: String,
             min: 7,
-            required: true,
+            required: false,
         },
         phone: {
             type: Number,
             length: 10,
-            required: true,
+            required: false,
         },
         photo: {
             type: String,

@@ -1,13 +1,16 @@
 import express from 'express'
 import passport from 'passport'
-// import authValidation from '../validations/authValidation.js'
 import authController from '../controllers/authController.js'
+import { verifyGoogleAccessToken } from '../config/google-auth-library.js'
+// import authValidation from '../validations/authValidation.js'
 
 const router = express.Router()
 
 router.post('/register', authController.register)
 
 router.post('/login', authController.login)
+
+router.post('/google', verifyGoogleAccessToken, authController.googleLogin)
 
 router.post('/forgot-password', authController.forgotPassword)
 
