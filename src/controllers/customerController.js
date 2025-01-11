@@ -146,7 +146,7 @@ const getBookings = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const bookings = await Booking.find({ owner })
-            .populate('vehicle assignedTo')
+            .populate('vehicles assignedTo')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -172,7 +172,7 @@ const getBooking = async (req, res, next) => {
         const owner = new mongoose.Types.ObjectId(req.user._id)
 
         const booking = await Booking.findOne({ _id, owner })
-            .populate('vehicle assignedTo')
+            .populate('vehicles assignedTo')
             .lean()
 
         if (!booking) {
@@ -192,7 +192,7 @@ const createBooking = async (req, res, next) => {
     try {
         const user = req.user
         const newBooking = {
-            vehicle: req.body.vehicle,
+            vehicles: req.body.vehicles,
             assignedTo: req.body.assignedTo,
             assignedToModel: req.body.assignedToModel,
             description: req.body.description,
@@ -231,7 +231,7 @@ const updateBooking = async (req, res, next) => {
         const _id = req.params.id
         const owner = new mongoose.Types.ObjectId(req.user._id)
         const newBooking = {
-            vehicle: req.body.vehicle,
+            vehicles: req.body.vehicles,
             assignedTo: req.body.assignedTo,
             assignedToModel: req.body.assignedToModel,
             description: req.body.description,

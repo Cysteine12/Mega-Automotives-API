@@ -11,7 +11,7 @@ const getBookings = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const bookings = await Booking.find({ assignedToModel })
-            .populate('owner vehicle assignedTo', '-password')
+            .populate('owner vehicles assignedTo', '-password')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -38,7 +38,7 @@ const getBookingsByStatus = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const bookings = await Booking.find({ assignedToModel, status })
-            .populate('owner vehicle assignedTo', '-password')
+            .populate('owner vehicles assignedTo', '-password')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -86,7 +86,7 @@ const searchBookingsByOwner = async (req, res, next) => {
                 $in: userIds,
             },
         })
-            .populate('owner vehicle assignedTo', '-password')
+            .populate('owner vehicles assignedTo', '-password')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -113,7 +113,7 @@ const getBookingById = async (req, res, next) => {
         const { id } = req.params
 
         const booking = await Booking.findById(id)
-            .populate('owner vehicle assignedTo', '-password')
+            .populate('owner vehicles assignedTo', '-password')
             .lean()
 
         if (!booking) {
@@ -132,11 +132,11 @@ const getBookingById = async (req, res, next) => {
 const updateBookingStatus = async (req, res, next) => {
     try {
         const { id } = req.params
-        const { status } = req.body
+        const { message, status } = req.body
 
         const updatedBooking = await Booking.findByIdAndUpdate(
             id,
-            { status },
+            { message, status },
             { new: true }
         ).populate('owner')
 

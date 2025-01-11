@@ -11,9 +11,13 @@ const rentalSchema = new Schema(
             type: String,
             required: true,
         },
+        thumbnail: {
+            type: String,
+            required: true,
+        },
         images: {
             type: [String],
-            required: true,
+            required: false,
         },
         price: {
             perHour: {

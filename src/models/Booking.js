@@ -7,11 +7,13 @@ const bookingSchema = new Schema(
             ref: 'User',
             required: true,
         },
-        vehicle: {
-            type: Schema.Types.ObjectId,
-            ref: 'Vehicle',
-            required: true,
-        },
+        vehicles: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Vehicle',
+                required: true,
+            },
+        ],
         assignedTo: [
             {
                 type: Schema.Types.ObjectId,
@@ -64,6 +66,10 @@ const bookingSchema = new Schema(
                 type: String,
                 required: false,
             },
+        },
+        message: {
+            type: String,
+            required: false,
         },
         status: {
             type: String,

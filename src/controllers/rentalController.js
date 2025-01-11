@@ -79,6 +79,7 @@ const createRental = async (req, res, next) => {
         }
         const newRental = {
             description: req.body.description,
+            thumbnail: req.body.thumbnail,
             images: req.body.images,
             price: {
                 perHour: req.body.price.perHour,
@@ -121,6 +122,7 @@ const updateRental = async (req, res, next) => {
         const { id } = req.params
         const newRental = {
             description: req.body.description,
+            thumbnail: req.body.thumbnail,
             images: req.body.images,
             price: {
                 perHour: req.body.price.perHour,
