@@ -24,9 +24,9 @@ const getRentals = async (req, res, next) => {
     }
 }
 
-const searchRentalsByLicenseNo = async (req, res, next) => {
+const searchRentalsByNameOrLicense = async (req, res, next) => {
     try {
-        const { licenseNo } = req.query
+        const { query } = req.query
 
         const rentals = await Rental.find()
             .populate('vehicle')
@@ -34,7 +34,11 @@ const searchRentalsByLicenseNo = async (req, res, next) => {
             .lean()
 
         const filteredRentals = rentals.filter((rental) => {
-            return rental.vehicle.licenseNo.includes(licenseNo)
+            return (
+                rental.vehicle.model.includes(query) ||
+                rental.vehicle.brand.includes(query) ||
+                rental.vehicle.licenseNo.includes(query)
+            )
         })
 
         res.status(200).json({
@@ -175,7 +179,7 @@ const deleteRental = async (req, res, next) => {
 
 export default {
     getRentals,
-    searchRentalsByLicenseNo,
+    searchRentalsByNameOrLicense,
     getRentalById,
     createRental,
     updateRental,

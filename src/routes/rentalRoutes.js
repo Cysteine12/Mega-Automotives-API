@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.get('/', rentalController.getRentals)
 
-router.get('/search', rentalController.searchRentalsByLicenseNo)
+router.get('/search', rentalController.searchRentalsByNameOrLicense)
 
 router.get('/:id', rentalController.getRentalById)
 
