@@ -25,7 +25,7 @@ const addItem = async (req, res, next) => {
             items: [
                 {
                     inventory: req.body.inventory,
-                    quantity: req.body.quantity,
+                    quantity: req.body.quantity || 1,
                 },
             ],
             status: 'Pending',

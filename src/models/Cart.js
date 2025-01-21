@@ -13,6 +13,7 @@ const cartSchema = new Schema(
                 inventory: {
                     type: Schema.Types.ObjectId,
                     ref: 'Inventory',
+                    unique: true,
                     required: true,
                 },
                 quantity: {
