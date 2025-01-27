@@ -1,4 +1,5 @@
 import User from '../models/User.js'
+import Payment from '../models/Payment.js'
 import notificationService from '../services/notificationService.js'
 import emailService from '../services/emailService.js'
 import { NotFoundError, ValidationError } from '../middlewares/errorHandler.js'
@@ -238,6 +239,47 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const getPayments = async (req, res, next) => {
+    try {
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+
+        const payments = await Payment.find()
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean()
+
+        res.status(200).json({
+            success: true,
+            data: payments,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const getPaymentsByUser = async (req, res, next) => {
+    try {
+        const user = req.params.id
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+
+        const payments = await Payment.find({ user })
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean()
+
+        res.status(200).json({
+            success: true,
+            data: payments,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
 export default {
     getUsers,
     getUsersByRole,
@@ -247,4 +289,6 @@ export default {
     updateUser,
     updateUserRole,
     deleteUser,
+    getPayments,
+    getPaymentsByUser,
 }

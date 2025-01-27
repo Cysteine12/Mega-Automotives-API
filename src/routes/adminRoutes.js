@@ -61,4 +61,16 @@ router.delete(
     adminController.deleteUser
 )
 
+router.get(
+    '/payments',
+    passport.authenticate('jwt', { session: false }),
+    adminController.getPayments
+)
+
+router.get(
+    '/payments/user/:id',
+    passport.authenticate('jwt', { session: false }),
+    adminController.getPaymentsByUser
+)
+
 export default router
