@@ -76,8 +76,8 @@ app.use('/api/inventories', inventoryRoutes)
 import cartRoutes from './routes/cartRoutes.js'
 app.use('/api/carts', cartRoutes)
 
-// import paymentRoutes from './routes/paymentRoutes.js'
-// app.use('/api/payments', paymentRoutes)
+import paymentRoutes from './routes/paymentRoutes.js'
+app.use('/api/payments', paymentRoutes)
 
 import customerRoutes from './routes/customerRoutes.js'
 app.use('/api/customer', customerRoutes)

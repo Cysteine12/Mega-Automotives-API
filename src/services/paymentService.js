@@ -7,7 +7,7 @@ const startPayment = async (data) => {
             email: data.email,
             amount: data.amount,
             metadata: data.metadata,
-            callback_url: 'https://yourapp.com/payment-success',
+            callback_url: `${process.env.ORIGIN_URL}/payments/verify`,
         },
         {
             headers: {

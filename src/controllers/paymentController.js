@@ -42,10 +42,9 @@ const initializePayment = async (req, res, next) => {
         }
 
         const response = await paymentService.startPayment(data)
-
         res.status(200).json({
             success: true,
-            data: response,
+            data: response.data.data.authorization_url,
         })
     } catch (err) {
         next(err)
@@ -58,20 +57,20 @@ const verifyPayment = async (req, res, next) => {
 
         const response = await paymentService.recordPayment(reference)
 
-        if (response.data.status !== 'success') {
-            await notificationService.paymentFailed(response.data)
+        if (response.data.data.status !== 'success') {
+            await notificationService.paymentFailed(response.data.data)
 
             throw new PaymentAPIError(
-                `Payment verification ${response.data.status}`
+                `Payment verification ${response.data.data.status}`
             )
         }
 
         const newPayment = {
-            ...response.data.metadata,
-            amount: response.data.amount / 100,
-            reference: response.data.reference,
-            method: response.data.method,
-            status: response.data.status,
+            ...response.data.data.metadata,
+            amount: response.data.data.amount / 100,
+            reference: response.data.data.reference,
+            method: response.data.data.channel,
+            status: response.data.data.status,
         }
 
         const payment = new Payment(newPayment)
@@ -80,13 +79,14 @@ const verifyPayment = async (req, res, next) => {
         await notificationService.paymentVerified(savedPayment)
 
         await emailService.sendPaymentVerificationMail(
-            response.data.email,
+            response.data.data.customer.email,
             savedPayment
         )
 
         res.status(200).json({
             success: true,
             data: savedPayment,
+            message: 'Payment verification successful',
         })
     } catch (err) {
         next(err)

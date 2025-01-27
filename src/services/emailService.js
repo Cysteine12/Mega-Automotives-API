@@ -174,7 +174,7 @@ const sendPaymentVerificationMail = async (email, savedPayment) => {
             <br/>
             Thank you for placing your order with Mega-Automotives.
             <br/>
-            Your ${savedPayment.assignedToModel} order payment is now ${savedPayment.status}.
+            Your ${savedPayment.assignedToModel} order payment was successful.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${savedPayment._id}" 
                 style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"

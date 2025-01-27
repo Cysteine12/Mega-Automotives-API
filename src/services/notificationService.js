@@ -62,9 +62,9 @@ const paymentVerified = async (payment) => {
     const notification = new Notification({
         user: payment.user,
         title: 'Payment Completed',
-        message: `Your payment status is now ${payment.status}`,
+        message: `Your payment status ${payment.status}`,
         type: 'success',
-        link: `/carts/checkout`,
+        link: `/payments`,
         isImportant: true,
     })
     return await notification.save()
@@ -76,7 +76,7 @@ const paymentFailed = async (payment) => {
         title: 'Payment Failed',
         message: `Your payment attempt ${payment.status}`,
         type: 'warning',
-        link: `/carts/checkout`,
+        link: `/carts`,
         isImportant: true,
     })
     return await notification.save()
