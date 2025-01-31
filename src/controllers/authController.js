@@ -45,9 +45,7 @@ const register = async (req, res, next) => {
         })
         const savedUser = await user.save()
 
-        const verifyUrl = `${req.protocol}://${req.get(
-            'host'
-        )}/api/auth/verify-email/${verificationToken}`
+        const verifyUrl = `${process.env.ORIGIN_URL}/verify-email/${verificationToken}`
 
         await emailService.sendWelcomeMail(savedUser, verifyUrl)
 
@@ -82,9 +80,7 @@ const login = async (req, res, next) => {
             user.emailVerificationTokenExpire = Date.now() + 24 * 60 * 60 * 1000
             await user.save()
 
-            const verifyUrl = `${req.protocol}://${req.get(
-                'host'
-            )}/api/auth/verify-email/${verificationToken}`
+            const verifyUrl = `${process.env.ORIGIN_URL}/verify-email/${verificationToken}`
 
             await emailService.sendWelcomeMail(user, verifyUrl)
         }
@@ -182,9 +178,7 @@ const forgotPassword = async (req, res, next) => {
         user.resetPasswordExpire = Date.now() + 10 * 60 * 1000
         await user.save()
 
-        const resetUrl = `${req.protocol}://${req.get(
-            'host'
-        )}/reset-password/${resetToken}?email=${email}`
+        const resetUrl = `${process.env.ORIGIN_URL}/reset-password/${resetToken}?email=${email}`
 
         await emailService.sendForgotPasswordMail(email, resetUrl)
 

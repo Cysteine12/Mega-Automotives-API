@@ -13,7 +13,7 @@ const sendWelcomeMailFromAdmin = async (savedUser) => {
             You can proceed to contact the company admin for your details and sign-in here:
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/login" 
-                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
             >
                 Sign In
             </a>
@@ -33,10 +33,11 @@ const sendWelcomeMail = async (savedUser, verifyUrl) => {
             Let's make sure this is the right email address for you - 
             please confirm that this is the right address to use for your new account.
             Please use this verification link to get started on Mega-Automotives:
-            <br/>
-            <a href="${verifyUrl}" style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;">
+            <br/><br/>
+            <a href="${verifyUrl}" style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;">
                 Verify Email
             </a>
+            <br/><br/>
             This link expires after 24 hours. If you did not request this, kindly ignore.
             <br/><br/>
             Warm Regards,
@@ -54,7 +55,7 @@ const sendForgotPasswordMail = async (email, resetUrl) => {
             You are receiving this email because you requested a password reset.
             Please use the following link to reset your password:
             <br/><br/>
-            <a href="${resetUrl}" style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;">
+            <a href="${resetUrl}" style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;">
                 Reset Password
             </a>
             <br/><br/>
@@ -95,7 +96,7 @@ const sendEmailVerificationMail = async (user) => {
             <br/><br/>
             To know more about our services:
             <a href="${process.env.ORIGIN_URL}/login" 
-                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
             >
                 Explore
             </a>
@@ -119,7 +120,7 @@ const sendNewBookingMail = async (user, savedBooking) => {
             in the next few hours once the booking has been confirmed.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${savedBooking._id}" 
-                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
             >
                 Check Booking
             </a>
@@ -147,7 +148,7 @@ const sendBookingStatusMail = async (updatedBooking) => {
             Your vehicle ${updatedBooking.assignedToModel} booking record is now ${updatedBooking.status}.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${updatedBooking._id}" 
-                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
             >
                 Check Booking
             </a>
@@ -177,7 +178,7 @@ const sendPaymentVerificationMail = async (email, savedPayment) => {
             Your ${savedPayment.assignedToModel} order payment was successful.
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${savedPayment._id}" 
-                style="margin:auto;background:#4f5ddb;color:#fff;padding:4px;font-size:16px;border-radius:5px;"
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
             >
                 View Payment
             </a>

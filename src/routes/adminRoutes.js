@@ -6,6 +6,13 @@ import { authorize } from '../middlewares/roleMiddleware.js'
 const router = express.Router()
 
 router.get(
+    '/dashboard',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
+    adminController.dashboard
+)
+
+router.get(
     '/users',
     passport.authenticate('jwt', { session: false }),
     authorize(['administrator']),
@@ -64,12 +71,14 @@ router.delete(
 router.get(
     '/payments',
     passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
     adminController.getPayments
 )
 
 router.get(
     '/payments/user/:id',
     passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
     adminController.getPaymentsByUser
 )
 

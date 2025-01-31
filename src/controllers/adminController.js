@@ -1,8 +1,57 @@
 import User from '../models/User.js'
 import Payment from '../models/Payment.js'
+import Vehicle from '../models/Vehicle.js'
+import Booking from '../models/Booking.js'
 import notificationService from '../services/notificationService.js'
 import emailService from '../services/emailService.js'
 import { NotFoundError, ValidationError } from '../middlewares/errorHandler.js'
+
+const dashboard = async (req, res, next) => {
+    try {
+        const totalCustomers = await User.find({
+            role: 'customer',
+        }).countDocuments()
+
+        const payments = await Payment.find().lean()
+
+        const totalPayments = payments.reduce((pre, cur) => pre + cur.amount, 0)
+
+        const totalVehicles = await Vehicle.find().countDocuments()
+
+        const totalRentalBookings = await Booking.find({
+            assignedToModel: 'Rental',
+        }).countDocuments()
+
+        const totalPendingRentalBookings = await Booking.find({
+            assignedToModel: 'Rental',
+            status: 'booked',
+        }).countDocuments()
+
+        const totalServiceBookings = await Booking.find({
+            assignedToModel: 'Subservice',
+        }).countDocuments()
+
+        const totalPendingServiceBookings = await Booking.find({
+            assignedToModel: 'Subservice',
+            status: 'booked',
+        }).countDocuments()
+
+        res.status(200).json({
+            success: true,
+            total: {
+                totalCustomers,
+                totalPayments,
+                totalVehicles,
+                totalRentalBookings,
+                totalPendingRentalBookings,
+                totalServiceBookings,
+                totalPendingServiceBookings,
+            },
+        })
+    } catch (err) {
+        next(err)
+    }
+}
 
 const getUsers = async (req, res, next) => {
     try {
@@ -250,9 +299,12 @@ const getPayments = async (req, res, next) => {
             .limit(limit)
             .lean()
 
+        const totalPayments = await Payment.find().countDocuments()
+
         res.status(200).json({
             success: true,
             data: payments,
+            total: totalPayments,
         })
     } catch (err) {
         next(err)
@@ -271,9 +323,12 @@ const getPaymentsByUser = async (req, res, next) => {
             .limit(limit)
             .lean()
 
+        const totalPayments = await Payment.find({ user }).countDocuments()
+
         res.status(200).json({
             success: true,
             data: payments,
+            total: totalPayments,
         })
     } catch (err) {
         next(err)
@@ -281,6 +336,7 @@ const getPaymentsByUser = async (req, res, next) => {
 }
 
 export default {
+    dashboard,
     getUsers,
     getUsersByRole,
     searchUsersByName,

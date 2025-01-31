@@ -16,10 +16,8 @@ const sendEmail = (mail) => {
         to: mail.to,
         subject: mail.subject,
         html: `
-            <div style="background:#e2d8d8; padding: 20px 10px;">
-                <div style="background: #fff; border-radius: 10px; padding: 10px 10px;">
-                    ${mail.html}
-                </div>
+            <div style="margin: 20px; background: #fff; border-radius: 10px; padding: 20px 10px; box-shadow: 0px 4px 10px gray">
+                ${mail.html}
             </div>
         `,
     }
