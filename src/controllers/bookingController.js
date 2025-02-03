@@ -6,20 +6,17 @@ import { NotFoundError, ValidationError } from '../middlewares/errorHandler.js'
 
 const getBookings = async (req, res, next) => {
     try {
-        const { category: assignedToModel } = req.params
         const page = parseInt(req.query.page) || 1
         const limit = parseInt(req.query.limit) || 10
 
-        const bookings = await Booking.find({ assignedToModel })
+        const bookings = await Booking.find()
             .populate('owner vehicles assignedTo', '-password')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
             .lean()
 
-        const totalBookings = await Booking.find({
-            assignedToModel,
-        }).countDocuments()
+        const totalBookings = await Booking.find().countDocuments()
 
         res.status(200).json({
             success: true,
@@ -33,21 +30,43 @@ const getBookings = async (req, res, next) => {
 
 const getBookingsByStatus = async (req, res, next) => {
     try {
-        const { category: assignedToModel, status } = req.params
+        const { status } = req.params
         const page = parseInt(req.query.page) || 1
         const limit = parseInt(req.query.limit) || 10
 
-        const bookings = await Booking.find({ assignedToModel, status })
+        const bookings = await Booking.find({ status })
             .populate('owner vehicles assignedTo', '-password')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
             .lean()
 
-        const totalBookings = await Booking.find({
-            assignedToModel,
-            status,
-        }).countDocuments()
+        const totalBookings = await Booking.find({ status }).countDocuments()
+
+        res.status(200).json({
+            success: true,
+            data: bookings,
+            total: totalBookings,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const getBookingsByOwner = async (req, res, next) => {
+    try {
+        const owner = req.params.id
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+
+        const bookings = await Booking.find({ owner })
+            .populate('owner vehicles assignedTo', '-password')
+            .sort({ updatedAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean()
+
+        const totalBookings = await Booking.find({ owner }).countDocuments()
 
         res.status(200).json({
             success: true,
@@ -179,9 +198,10 @@ const deleteBooking = async (req, res, next) => {
 
 export default {
     getBookings,
-    getBookingById,
     getBookingsByStatus,
+    getBookingsByOwner,
     searchBookingsByOwner,
+    getBookingById,
     updateBookingStatus,
     deleteBooking,
 }

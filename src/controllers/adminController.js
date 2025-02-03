@@ -4,6 +4,7 @@ import Vehicle from '../models/Vehicle.js'
 import Booking from '../models/Booking.js'
 import notificationService from '../services/notificationService.js'
 import emailService from '../services/emailService.js'
+import { v4 as uuidv4 } from 'uuid'
 import { NotFoundError, ValidationError } from '../middlewares/errorHandler.js'
 
 const dashboard = async (req, res, next) => {
@@ -63,6 +64,7 @@ const getUsers = async (req, res, next) => {
                 $nin: [req.user.id],
             },
         })
+            .select('-password')
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -134,7 +136,7 @@ const searchUsersByName = async (req, res, next) => {
                 $nin: [_id],
             },
         })
-            .select('_id name photo')
+            .select('-password')
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -169,7 +171,9 @@ const getUserById = async (req, res, next) => {
                 $in: [id],
                 $nin: [_id],
             },
-        }).lean()
+        })
+            .select('-password')
+            .lean()
 
         if (!user) {
             throw new NotFoundError('This user no longer exist')
@@ -192,23 +196,30 @@ const createUser = async (req, res, next) => {
                 lastName: req.body.name.lastName,
             },
             email: req.body.email,
-            password: req.body.password,
             phone: req.body.phone,
             role: req.body.role,
             isVerified: true,
         }
 
-        const isExist = await User.findOne({ email: newUser.email })
+        let user = await User.findOne({ email: newUser.email })
             .select('_id')
             .lean()
-        if (isExist) {
+        if (user) {
             throw new ValidationError('This email already exists')
         }
 
-        const user = new User(newUser)
+        const verificationToken = uuidv4()
+
+        user = new User({
+            ...newUser,
+            emailVerificationToken: verificationToken,
+            emailVerificationTokenExpire: Date.now() + 24 * 60 * 60 * 1000,
+        })
         const savedUser = await user.save()
 
-        await emailService.sendWelcomeMailFromAdmin(savedUser)
+        const verifyUrl = `${process.env.ORIGIN_URL}/verify-email/${verificationToken}`
+
+        await emailService.sendWelcomeMailFromAdmin(savedUser, verifyUrl)
 
         res.status(200).json({
             success: true,
@@ -228,11 +239,11 @@ const updateUser = async (req, res, next) => {
                 firstName: req.body.name.firstName,
                 lastName: req.body.name.lastName,
             },
-            password: req.body.password,
+            email: req.body.email,
             phone: req.body.phone,
         }
 
-        const updatedUser = await User.findByIdandUpdate(id, newUser)
+        const updatedUser = await User.findByIdAndUpdate(id, newUser)
 
         if (!updatedUser) {
             throw new NotFoundError('User not found')

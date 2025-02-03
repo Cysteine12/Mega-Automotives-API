@@ -1,9 +1,9 @@
 import sendEmail from '../config/sendEmail.js'
 
-const sendWelcomeMailFromAdmin = async (savedUser) => {
+const sendWelcomeMailFromAdmin = async (savedUser, verifyUrl) => {
     return await sendEmail({
         to: savedUser.email,
-        subject: 'Welcome to the Mega-Automotives family!',
+        subject: 'Welcome to Mega-Automotives!',
         html: `<h3>Hello ${savedUser.name.firstName},</h3>
             <br/>
             Welcome to Mega-Automotives. It's great to have you on our team!
@@ -12,7 +12,7 @@ const sendWelcomeMailFromAdmin = async (savedUser) => {
             <br/><br/>
             You can proceed to contact the company admin for your details and sign-in here:
             <br/><br/>
-            <a href="${process.env.ORIGIN_URL}/login" 
+            <a href="${verifyUrl}" 
                 style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
             >
                 Sign In
@@ -71,7 +71,7 @@ const sendForgotPasswordMail = async (email, resetUrl) => {
 const sendEmailVerificationMail = async (user) => {
     return await sendEmail({
         to: user.email,
-        subject: 'Welcome to the Mega-Automotives family!',
+        subject: 'Welcome to Mega-Automotives!',
         html: `<h3>Hey ${user.name.firstName},</h3>
             <br/>
             Welcome to Mega-Automotives. It's great to meet you!

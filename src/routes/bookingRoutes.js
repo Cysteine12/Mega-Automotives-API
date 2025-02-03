@@ -6,28 +6,35 @@ import { authorize } from '../middlewares/roleMiddleware.js'
 const router = express.Router()
 
 router.get(
-    '/:category',
+    '/',
     passport.authenticate('jwt', { session: false }),
     authorize(['administrator', 'service-technician']),
     bookingController.getBookings
 )
 
 router.get(
-    '/:category/status/:status',
+    '/status/:status',
     passport.authenticate('jwt', { session: false }),
     authorize(['administrator', 'service-technician']),
     bookingController.getBookingsByStatus
 )
 
 router.get(
-    '/:category/search',
+    '/owner/:id',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator', 'service-technician']),
+    bookingController.getBookingsByOwner
+)
+
+router.get(
+    '/search',
     passport.authenticate('jwt', { session: false }),
     authorize(['administrator', 'service-technician']),
     bookingController.searchBookingsByOwner
 )
 
 router.get(
-    '/:category/:id',
+    '/:id',
     passport.authenticate('jwt', { session: false }),
     authorize(['administrator', 'service-technician']),
     bookingController.getBookingById
