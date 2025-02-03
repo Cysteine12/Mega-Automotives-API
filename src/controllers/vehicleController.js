@@ -7,6 +7,7 @@ const getVehicles = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const vehicles = await Vehicle.find()
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -31,6 +32,7 @@ const getVehiclesByCategory = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const vehicles = await Vehicle.find({ category })
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -78,46 +80,16 @@ const searchVehiclesByLicenseNo = async (req, res, next) => {
         const page = parseInt(req.query.page) || 1
         const limit = parseInt(req.query.limit) || 10
 
-        const vehicles = await Vehicle.aggregate([
-            {
-                $match: {
-                    $text: {
-                        $search: licenseNo,
-                    },
-                },
+        const vehicles = await Vehicle.find({
+            $text: {
+                $search: licenseNo,
             },
-            {
-                $sort: {
-                    updatedAt: -1,
-                },
-            },
-            {
-                $skip: (page - 1) * limit,
-            },
-            {
-                $limit: limit,
-            },
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'owner',
-                    foreignField: '_id',
-                    as: 'owner',
-                },
-            },
-            {
-                $unwind: '$user',
-            },
-            {
-                $project: {
-                    category: 1,
-                    licenseNo: 1,
-                    color: 1,
-                    status: 1,
-                    'owner.name': 1,
-                },
-            },
-        ])
+        })
+            .populate('owner', '_id name')
+            .sort({ updatedAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean()
 
         res.status(200).json({
             success: true,
@@ -132,7 +104,9 @@ const getVehicleById = async (req, res, next) => {
     try {
         const { id } = req.params
 
-        const vehicle = await Vehicle.findById(id).populate('owner').lean()
+        const vehicle = await Vehicle.findById(id)
+            .populate('owner', '_id name')
+            .lean()
 
         res.status(200).json({
             success: true,
