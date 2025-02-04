@@ -116,19 +116,19 @@ bookingSchema.post('save', function (doc, next) {
     next()
 })
 
-// bookingSchema.post('findOneAndUpdate', function (doc, next) {
-//     if (doc.assignedToModel) {
-//         switch (doc.assignedToModel) {
-//             case 'Subservice':
-//                 doc.assignedToModel = 'service'
-//                 break
+bookingSchema.post('findOneAndUpdate', function (doc, next) {
+    if (doc.assignedToModel) {
+        switch (doc.assignedToModel) {
+            case 'Subservice':
+                doc.assignedToModel = 'service'
+                break
 
-//             case 'Rental':
-//                 doc.assignedToModel = 'rental'
-//                 break
-//         }
-//     }
-//     next()
-// })
+            case 'Rental':
+                doc.assignedToModel = 'rental'
+                break
+        }
+    }
+    next()
+})
 
 export default model('Booking', bookingSchema)
