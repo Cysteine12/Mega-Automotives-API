@@ -145,7 +145,7 @@ const sendBookingStatusMail = async (updatedBooking) => {
             <br/>
             Thank you for booking with Mega-Automotives.
             <br/>
-            Your vehicle ${updatedBooking.assignedToModel} booking record is now ${updatedBooking.status}.
+            Your vehicle ${updatedBooking.assignedToModel} booking record is now ${updatedBooking.status}. ${updatedBooking.message}
             <br/><br/>
             <a href="${process.env.ORIGIN_URL}/bookings/${updatedBooking._id}" 
                 style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"

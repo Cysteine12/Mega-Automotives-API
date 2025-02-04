@@ -48,9 +48,9 @@ const bookingCreated = async (booking) => {
 
 const bookingStatusUpdated = async (booking) => {
     const notification = new Notification({
-        user: booking.owner,
+        user: booking.owner._id,
         title: 'Booking Updated',
-        message: `Your booking status is now ${booking.status}`,
+        message: `Your booking status is now ${booking.status}. ${booking.message}`,
         type: booking.status === 'booked' ? 'success' : 'alert',
         link: `/bookings/${booking._id}`,
         isImportant: booking.status === 'booked' ? false : true,

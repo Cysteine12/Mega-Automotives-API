@@ -57,6 +57,7 @@ const getVehiclesByOwnerId = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const vehicles = await Vehicle.find({ owner })
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -91,9 +92,16 @@ const searchVehiclesByLicenseNo = async (req, res, next) => {
             .limit(limit)
             .lean()
 
+        const totalVehicles = await Vehicle.find({
+            $text: {
+                $search: licenseNo,
+            },
+        }).countDocuments()
+
         res.status(200).json({
             success: true,
             data: vehicles,
+            total: totalVehicles,
         })
     } catch (err) {
         next(err)

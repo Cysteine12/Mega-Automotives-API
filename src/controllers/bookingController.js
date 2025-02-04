@@ -10,7 +10,7 @@ const getBookings = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const bookings = await Booking.find()
-            .populate('owner vehicles assignedTo', '-password')
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -35,7 +35,7 @@ const getBookingsByStatus = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const bookings = await Booking.find({ status })
-            .populate('owner vehicles assignedTo', '-password')
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -60,7 +60,7 @@ const getBookingsByOwner = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const bookings = await Booking.find({ owner })
-            .populate('owner vehicles assignedTo', '-password')
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -105,7 +105,7 @@ const searchBookingsByOwner = async (req, res, next) => {
                 $in: userIds,
             },
         })
-            .populate('owner vehicles assignedTo', '-password')
+            .populate('owner', '_id name')
             .sort({ updatedAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -132,7 +132,8 @@ const getBookingById = async (req, res, next) => {
         const { id } = req.params
 
         const booking = await Booking.findById(id)
-            .populate('owner vehicles assignedTo', '-password')
+            .populate('vehicles assignedTo')
+            .populate('owner', '_id name')
             .lean()
 
         if (!booking) {
@@ -157,7 +158,13 @@ const updateBookingStatus = async (req, res, next) => {
             id,
             { message, status },
             { new: true }
-        ).populate('owner')
+        )
+            .populate('owner')
+            .lean()
+
+        if (!updatedBooking) {
+            throw new NotFoundError('Booking not found')
+        }
 
         await notificationService.bookingStatusUpdated(updatedBooking)
 
