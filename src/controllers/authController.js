@@ -287,6 +287,7 @@ const verifyEmail = async (req, res, next) => {
         res.status(200).json({
             success: true,
             message: 'Email verification successful',
+            user: user,
         })
     } catch (err) {
         next(err)
