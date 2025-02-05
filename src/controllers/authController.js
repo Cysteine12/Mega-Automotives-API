@@ -36,18 +36,8 @@ const register = async (req, res, next) => {
             throw new ValidationError('This email already exists')
         }
 
-        const verificationToken = uuidv4()
-
-        user = new User({
-            ...newUser,
-            emailVerificationToken: verificationToken,
-            emailVerificationTokenExpire: Date.now() + 24 * 60 * 60 * 1000,
-        })
-        const savedUser = await user.save()
-
-        const verifyUrl = `${process.env.ORIGIN_URL}/verify-email/${verificationToken}`
-
-        await emailService.sendWelcomeMail(savedUser, verifyUrl)
+        user = new User({ ...newUser })
+        await user.save()
 
         res.status(201).json({
             success: true,
