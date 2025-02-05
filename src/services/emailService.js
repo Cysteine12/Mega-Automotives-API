@@ -196,6 +196,35 @@ const sendPaymentVerificationMail = async (email, savedPayment) => {
     })
 }
 
+const sendPaymentStatusMail = async (updatedPayment) => {
+    return await sendEmail({
+        to: updatedPayment.user.email,
+        subject: `Your ${updatedPayment.assignedToModel} payment is now ${updatedPayment.status}`,
+        html: `<h3>Dear ${updatedPayment.user.name.firstName},</h3>
+            <br/>
+            Thank you for shopping with Mega-Automotives.
+            <br/>
+            Your ${updatedPayment.assignedToModel} ${updatedPayment.method} payment attempt is now ${updatedPayment.status}.
+            <br/><br/>
+            <a href="${process.env.ORIGIN_URL}/payments/${updatedPayment._id}" 
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
+            >
+                Check Payments
+            </a>
+            <br/><br/>
+            If you would like to place a complaint, click 
+            <a href="mailto:${process.env.EMAIL_FROM}">here</a>.
+            Please note that your payment can only be cancelled 
+            prior to the pick-up of the order.
+            <br/><br/>
+            <br/><br/>
+            Warm Regards,
+            <br/>
+            Mega-Automotives Team.
+        `,
+    })
+}
+
 export default {
     sendWelcomeMailFromAdmin,
     sendWelcomeMail,
@@ -204,4 +233,5 @@ export default {
     sendNewBookingMail,
     sendBookingStatusMail,
     sendPaymentVerificationMail,
+    sendPaymentStatusMail,
 }

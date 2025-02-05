@@ -49,7 +49,7 @@ const bookingCreated = async (booking) => {
 const bookingStatusUpdated = async (booking) => {
     const notification = new Notification({
         user: booking.owner._id,
-        title: 'Booking Updated',
+        title: 'Booking Status Updated',
         message: `Your booking status is now ${booking.status}. ${booking.message}`,
         type: booking.status === 'booked' ? 'success' : 'alert',
         link: `/bookings/${booking._id}`,
@@ -64,7 +64,7 @@ const paymentVerified = async (payment) => {
         title: 'Payment Completed',
         message: `Your payment status ${payment.status}`,
         type: 'success',
-        link: `/payments`,
+        link: `/payments/${payment._id}`,
         isImportant: true,
     })
     return await notification.save()
@@ -76,7 +76,19 @@ const paymentFailed = async (payment) => {
         title: 'Payment Failed',
         message: `Your payment attempt ${payment.status}`,
         type: 'warning',
-        link: `/carts`,
+        link: `/payments`,
+        isImportant: true,
+    })
+    return await notification.save()
+}
+
+const paymentStatusUpdated = async (payment) => {
+    const notification = new Notification({
+        user: payment.user._id,
+        title: 'Payment Status Updated',
+        message: `Your payment attempt ${payment.status}`,
+        type: 'warning',
+        link: `/payments/${payment._id}`,
         isImportant: true,
     })
     return await notification.save()
@@ -102,5 +114,6 @@ export default {
     bookingStatusUpdated,
     paymentVerified,
     paymentFailed,
+    paymentStatusUpdated,
     serviceCreated,
 }

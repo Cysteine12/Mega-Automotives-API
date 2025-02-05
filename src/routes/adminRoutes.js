@@ -82,4 +82,32 @@ router.get(
     adminController.getPaymentsByUser
 )
 
+router.get(
+    '/payments/search',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
+    adminController.searchPaymentByReference
+)
+
+router.get(
+    '/payments/:id',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
+    adminController.getPayment
+)
+
+router.patch(
+    '/payments/:id/status',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
+    adminController.updatePaymentStatus
+)
+
+router.delete(
+    '/payments/:id',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
+    adminController.deletePayment
+)
+
 export default router

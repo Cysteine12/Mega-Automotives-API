@@ -36,12 +36,14 @@ const paymentSchema = new Schema(
         status: {
             type: String,
             enum: ['pending', 'success', 'failed', 'refunded'],
-            default: 'Pending',
+            default: 'pending',
         },
     },
     {
         timestamps: true,
     }
 )
+
+paymentSchema.index({ reference: 'text' })
 
 export default model('Payment', paymentSchema)

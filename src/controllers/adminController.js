@@ -305,6 +305,7 @@ const getPayments = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const payments = await Payment.find()
+            .populate('user', '_id name')
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -329,6 +330,7 @@ const getPaymentsByUser = async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10
 
         const payments = await Payment.find({ user })
+            .populate('user', '_id name')
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
@@ -340,6 +342,109 @@ const getPaymentsByUser = async (req, res, next) => {
             success: true,
             data: payments,
             total: totalPayments,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const searchPaymentByReference = async (req, res, next) => {
+    try {
+        const { reference } = req.query
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+
+        const payments = await Payment.find({
+            $text: {
+                $search: reference,
+            },
+        })
+            .populate('user', '_id name')
+            .sort({ updatedAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean()
+
+        const totalPayments = await Payment.find({
+            $text: {
+                $search: reference,
+            },
+        }).countDocuments()
+
+        res.status(200).json({
+            success: true,
+            data: payments,
+            total: totalPayments,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const getPayment = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        const payment = await Payment.findById(id)
+            .populate('user assignedTo', '_id name')
+            .lean()
+
+        if (!payment) {
+            throw new NotFoundError('Payment not found')
+        }
+
+        res.status(200).json({
+            success: true,
+            data: payment,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const updatePaymentStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const { status } = req.body
+
+        const updatedPayment = await Payment.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        )
+            .populate('user', '_id name email')
+            .lean()
+
+        if (!updatedPayment) {
+            throw new NotFoundError('Payment not found')
+        }
+
+        await notificationService.paymentStatusUpdated(updatedPayment)
+
+        await emailService.sendPaymentStatusMail(updatedPayment)
+
+        res.status(200).json({
+            success: true,
+            message: 'Payment status updated successfully',
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const deletePayment = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        const payment = await Payment.findByIdAndDelete(id)
+
+        if (!payment) {
+            throw new NotFoundError('Payment not found')
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Payment record deleted successfully',
         })
     } catch (err) {
         next(err)
@@ -358,4 +463,8 @@ export default {
     deleteUser,
     getPayments,
     getPaymentsByUser,
+    searchPaymentByReference,
+    getPayment,
+    updatePaymentStatus,
+    deletePayment,
 }

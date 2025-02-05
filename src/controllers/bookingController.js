@@ -159,7 +159,7 @@ const updateBookingStatus = async (req, res, next) => {
             { message, status },
             { new: true }
         )
-            .populate('owner')
+            .populate('owner', '_id name email')
             .lean()
 
         if (!updatedBooking) {
