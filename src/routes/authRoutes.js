@@ -18,7 +18,7 @@ router.post('/reset-password/:token', authController.resetPassword)
 
 router.post('/refresh-token', authController.refreshToken)
 
-router.get('/verify-email/:token', authController.verifyEmail)
+router.post('/verify-email/:token', authController.verifyEmail)
 
 router.post(
     '/change-password',
