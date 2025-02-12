@@ -9,33 +9,31 @@ import { NotFoundError, ValidationError } from '../middlewares/errorHandler.js'
 
 const dashboard = async (req, res, next) => {
     try {
-        const totalCustomers = await User.find({
-            role: 'customer',
-        }).countDocuments()
-
-        const payments = await Payment.find().lean()
+        const [
+            totalCustomers,
+            payments,
+            totalVehicles,
+            totalRentalBookings,
+            totalPendingRentalBookings,
+            totalServiceBookings,
+            totalPendingServiceBookings,
+        ] = await Promise.all([
+            User.find({ role: 'customer' }).countDocuments(),
+            Payment.find().lean(),
+            Vehicle.find().countDocuments(),
+            Booking.find({ assignedToModel: 'Rental' }).countDocuments(),
+            Booking.find({
+                assignedToModel: 'Rental',
+                status: 'booked',
+            }).countDocuments(),
+            Booking.find({ assignedToModel: 'Subservice' }).countDocuments(),
+            Booking.find({
+                assignedToModel: 'Subservice',
+                status: 'booked',
+            }).countDocuments(),
+        ])
 
         const totalPayments = payments.reduce((pre, cur) => pre + cur.amount, 0)
-
-        const totalVehicles = await Vehicle.find().countDocuments()
-
-        const totalRentalBookings = await Booking.find({
-            assignedToModel: 'Rental',
-        }).countDocuments()
-
-        const totalPendingRentalBookings = await Booking.find({
-            assignedToModel: 'Rental',
-            status: 'booked',
-        }).countDocuments()
-
-        const totalServiceBookings = await Booking.find({
-            assignedToModel: 'Subservice',
-        }).countDocuments()
-
-        const totalPendingServiceBookings = await Booking.find({
-            assignedToModel: 'Subservice',
-            status: 'booked',
-        }).countDocuments()
 
         res.status(200).json({
             success: true,
