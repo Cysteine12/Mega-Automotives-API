@@ -94,11 +94,11 @@ const createRental = async (req, res, next) => {
         }
 
         const isExist = await Vehicle.findOne({
-            licenseNo: newRental.licenseNo,
+            licenseNo: newVehicle.licenseNo,
         }).lean()
         if (isExist) {
             throw new ValidationError(
-                `This vehicle (${newRental.licenseNo}) already exists`
+                `This vehicle (${newVehicle.licenseNo}) already exists`
             )
         }
 
