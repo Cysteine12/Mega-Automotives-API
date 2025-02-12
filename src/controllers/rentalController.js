@@ -151,6 +151,28 @@ const updateRental = async (req, res, next) => {
     }
 }
 
+const updateRentalStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const newRental = {
+            status: req.body.status,
+        }
+
+        const updatedRental = await Rental.findByIdAndUpdate(id, newRental)
+
+        if (!updatedRental) {
+            throw new NotFoundError('Rental vehicle not found')
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Rental status updated successfully',
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
 const deleteRental = async (req, res, next) => {
     try {
         const { id } = req.params
@@ -183,5 +205,6 @@ export default {
     getRentalById,
     createRental,
     updateRental,
+    updateRentalStatus,
     deleteRental,
 }

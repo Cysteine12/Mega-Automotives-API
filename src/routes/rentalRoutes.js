@@ -25,6 +25,13 @@ router.patch(
     rentalController.updateRental
 )
 
+router.patch(
+    '/:id/status',
+    passport.authenticate('jwt', { session: false }),
+    authorize(['administrator']),
+    rentalController.updateRentalStatus
+)
+
 router.delete(
     '/:id',
     passport.authenticate('jwt', { session: false }),
