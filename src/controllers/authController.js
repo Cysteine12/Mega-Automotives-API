@@ -300,6 +300,8 @@ const changePassword = async (req, res, next) => {
 
         await notificationService.userPasswordChanged(user)
 
+        await emailService.sendPasswordChangedMail(user)
+
         res.status(200).json({
             success: true,
             message: 'Password has been changed successfully',

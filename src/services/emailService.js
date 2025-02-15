@@ -106,6 +106,27 @@ const sendEmailVerificationMail = async (user) => {
         `,
     })
 }
+const sendPasswordChangedMail = async (user) => {
+    return await sendEmail({
+        to: user.email,
+        subject: 'Your account password was changed!',
+        html: `<h3>Hey ${user.name.firstName},</h3>
+            <br/>
+            Please be informed that your user account password has been updated.
+            <br/><br/>
+            If this activity wasn't performed by you, please revoke the account password immediately.
+            <br/><br/>
+            <a href="${process.env.ORIGIN_URL}/profile/change-password" 
+                style="text-align:center;background:#4f5ddb;color:#fff;padding:6px 10px;font-size:16px;border-radius:3px;"
+            >
+                Change Password
+            </a>
+            <br/><br/>
+            Warm Regards, 
+            Mega-Automotives Team.
+        `,
+    })
+}
 
 const sendNewBookingMail = async (user, savedBooking) => {
     return await sendEmail({
@@ -230,6 +251,7 @@ export default {
     sendWelcomeMail,
     sendForgotPasswordMail,
     sendEmailVerificationMail,
+    sendPasswordChangedMail,
     sendNewBookingMail,
     sendBookingStatusMail,
     sendPaymentVerificationMail,
