@@ -47,7 +47,7 @@ const inventorySchema = new Schema(
         },
         images: {
             type: [String],
-            required: true,
+            required: false,
         },
         status: {
             type: String,

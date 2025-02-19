@@ -1,6 +1,7 @@
 import express from 'express'
 import session from 'express-session'
 import cors from 'cors'
+import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import logger from './middlewares/logger.js'
 import DB from './config/db.js'
@@ -26,6 +27,8 @@ app.use(
         credentials: true,
     })
 )
+
+app.use(helmet())
 
 app.use(cookieParser())
 app.use(express.json())
