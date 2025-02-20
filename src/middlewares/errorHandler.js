@@ -1,10 +1,4 @@
-class NotFoundError extends Error {
-    constructor(message) {
-        super(message)
-        this.name = 'NotFoundError'
-        this.statusCode = 404
-    }
-}
+import logger from './logger.js'
 
 class ValidationError extends Error {
     constructor(message) {
@@ -38,12 +32,22 @@ class PaymentAPIError extends Error {
     }
 }
 
+class NotFoundError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = 'NotFoundError'
+        this.statusCode = 404
+    }
+}
+
 const notFoundHandler = () => {
     throw new NotFoundError('Route not found')
 }
 
 const errorHandler = (err, req, res, next) => {
     const { statusCode = 500, message = 'Internal Server Error' } = err
+
+    if (statusCode === 500) logger.error(`${message}, \n_Stack:_ ${err.stack} `)
 
     res.status(statusCode).json({
         success: false,

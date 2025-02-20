@@ -1,7 +1,8 @@
 import express from 'express'
-import session from 'express-session'
+import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
+import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import logger from './middlewares/logger.js'
 import DB from './config/db.js'
@@ -14,7 +15,11 @@ const app = express()
 
 //=======Middlewares======//
 if (process.env.NODE_ENV !== 'production') {
-    app.use(logger)
+    app.use(
+        morgan('dev', {
+            stream: { write: (message) => logger.info(message.trim()) },
+        })
+    )
 }
 
 app.use(
