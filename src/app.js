@@ -9,7 +9,6 @@ import DB from './config/db.js'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import passportJWT from './config/passport-jwt.js'
-import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js'
 
 const app = express()
 
@@ -96,7 +95,17 @@ app.use('/api/technician', technicianRoutes)
 import adminRoutes from './routes/adminRoutes.js'
 app.use('/api/admin', adminRoutes)
 
+//=======API Documentation=======//
+import { swaggerUi, generateYML, swaggerJson } from './docs/swagger.js'
+
+if (process.env.NODE_ENV !== 'production') {
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJson))
+
+    app.get('/generate-yml', generateYML)
+}
+
 //=======Error Handler=======//
+import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js'
 app.use(notFoundHandler)
 app.use(errorHandler)
 

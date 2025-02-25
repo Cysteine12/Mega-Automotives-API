@@ -1,0 +1,1553 @@
+openapi: 3.0.0
+info:
+  title: Mega-Automotives
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000
+tags:
+  - name: Auth
+  - name: Users
+  - name: Admin
+  - name: Technician
+  - name: Customer
+  - name: Vehicles
+  - name: Rentals
+  - name: Services
+  - name: Bookings
+  - name: Inventories
+  - name: Carts
+  - name: Notifications
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: user
+                email: gbengabp12@gmail.com
+                password: test12345
+                phone: 7064544565
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: test@gmail.com
+                password: test1234
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/forgot-password:
+    post:
+      tags:
+        - Auth
+      summary: forgotPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: gbengabp12@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/reset-password/e9dba429-82ee-42c6-ad0b-229d5b47dbba:
+    post:
+      tags:
+        - Auth
+      summary: resetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                password: test1234
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/verify-email/ff307236-bd22-47fe-93af-8cef7b05c3bb:
+    get:
+      tags:
+        - Auth
+      summary: verifyEmail
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/change-password:
+    post:
+      tags:
+        - Auth
+      summary: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                currentPassword: test12345
+                newPassword: test1234
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzA0MTI4ODgsImV4cCI6MTczMDQzNDQ4OH0.pc4u4Wdb-4zVCLZwgOCltDtIDWi7SD8B2yB7_apluKE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/profile:
+    get:
+      tags:
+        - Users
+      summary: profile
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUzMzFkYWU0YWQ0Y2MyOTA3ZWFlNmMiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjYyMzkwMDcsImV4cCI6MTcyNjI0MjYwN30.jZ10Y_mRE2EucuGw_GNyYBzeBRAPu4IrwxhyNjSMG5k
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Users
+      summary: profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                phone: 7064544565
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc0NTI4MCwiZXhwIjoxNzI1NzQ4ODgwfQ.IgRq5AiBdkNCO6kpzmv0xmc6FUtCK2ue1ssDbabhf5s
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Users
+      summary: profile
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc0NTI4MCwiZXhwIjoxNzI1NzQ4ODgwfQ.IgRq5AiBdkNCO6kpzmv0xmc6FUtCK2ue1ssDbabhf5s
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users:
+    get:
+      tags:
+        - Admin
+      summary: getUsers
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzk3MDkzMCwiZXhwIjoxNzI3OTgxNzMwfQ.IY_wCbB6Zw0lZE7fkeB7d1a1Re7PY2fS271SI_i_Z3A
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Admin
+      summary: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Baron
+                email: kinzy@gmail.com
+                password: test1234
+                phone: 7064534565
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc1MzU4MiwiZXhwIjoxNzI1NzU3MTgyfQ.xnokMiRht6vDUjR_UIjS1zUVg9CuWmPWo3sHl8gWjo0
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users/role/administrator:
+    get:
+      tags:
+        - Admin
+      summary: getUsersByRole
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc0NTI4MCwiZXhwIjoxNzI1NzQ4ODgwfQ.IgRq5AiBdkNCO6kpzmv0xmc6FUtCK2ue1ssDbabhf5s
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users/search:
+    get:
+      tags:
+        - Admin
+      summary: searchUsersByName
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzIyNjQxNCwiZXhwIjoxNzI3MjMwMDE0fQ.8Cs9ueIWxnbfO326HtSVI_m8zicEMMQWneeZj868M2M
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: test
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users/66d89454f419b290d5d3dcba:
+    get:
+      tags:
+        - Admin
+      summary: getUserById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc0NTI4MCwiZXhwIjoxNzI1NzQ4ODgwfQ.IgRq5AiBdkNCO6kpzmv0xmc6FUtCK2ue1ssDbabhf5s
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users/66d81d7b5252dddf7a476285:
+    patch:
+      tags:
+        - Admin
+      summary: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                password: test1234
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc1OTcwMSwiZXhwIjoxNzI1NzYzMzAxfQ._kg970EKOUKFhLi7oNqYRjWZmzj8-m_fEnkAcZmlm50
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users/66dcee7311d0b4f4d6d11989/role:
+    patch:
+      tags:
+        - Admin
+      summary: updateUserRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role: service-technician
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc1NzMyNiwiZXhwIjoxNzI1NzYwOTI2fQ.BfryoH74slyxmhCDHBX_HcHs_ynluJebW-FtVUwk-7c
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/admin/users/66dcf3a2ec23166914233dc4:
+    delete:
+      tags:
+        - Admin
+      summary: deleteUser
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTc1MzU4MiwiZXhwIjoxNzI1NzU3MTgyfQ.xnokMiRht6vDUjR_UIjS1zUVg9CuWmPWo3sHl8gWjo0
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/technician/users:
+    get:
+      tags:
+        - Technician
+      summary: getUsers
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRjZWU3MzExZDBiNGY0ZDZkMTE5ODkiLCJyb2xlIjoic2VydmljZS10ZWNobmljaWFuIiwiaWF0IjoxNzI1NzU3ODEwLCJleHAiOjE3MjU3NjE0MTB9.Vj8qmO_Iwv-FuMCFpiHtBvE-0Tl6DnhtVPTzBEc5WoU
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/technician/users/search:
+    get:
+      tags:
+        - Technician
+      summary: searchUsersByName
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRjZWU3MzExZDBiNGY0ZDZkMTE5ODkiLCJyb2xlIjoic2VydmljZS10ZWNobmljaWFuIiwiaWF0IjoxNzI1NzU3ODEwLCJleHAiOjE3MjU3NjE0MTB9.Vj8qmO_Iwv-FuMCFpiHtBvE-0Tl6DnhtVPTzBEc5WoU
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: kinzy
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/technician/users/66d81d7b5252dddf7a476285:
+    get:
+      tags:
+        - Technician
+      summary: getUserById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRjZWU3MzExZDBiNGY0ZDZkMTE5ODkiLCJyb2xlIjoic2VydmljZS10ZWNobmljaWFuIiwiaWF0IjoxNzI1NzU3ODEwLCJleHAiOjE3MjU3NjE0MTB9.Vj8qmO_Iwv-FuMCFpiHtBvE-0Tl6DnhtVPTzBEc5WoU
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/customer/vehicles:
+    get:
+      tags:
+        - Customer
+      summary: getVehicles
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3Mjg0OTE1NDYsImV4cCI6MTcyODUxMzE0Nn0.D50KElb7BweazHp-R5gKt0XaJe1OxOYbcHaoCK-G00o
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Customer
+      summary: createVehicle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                category: car
+                licenseNo: ABC1234
+                brand: Toyota
+                model: Corolla
+                year: 2018
+                color: White
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjU4MTA5MTgsImV4cCI6MTcyNTgxNDUxOH0.2rJ5Cs3JjQ2HLZG-opSgU4F4vCqNlzYsX1zcG0cLBsg
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/customer/vehicles/66dd98e41b83abb241fee14c:
+    get:
+      tags:
+        - Customer
+      summary: getVehicleById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRkMDFjMjRhODcwMTBiOGJiYmE3MDIiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjU4MDA2MzYsImV4cCI6MTcyNTgwNDIzNn0.bjPkV8R7rAarCglLmxFUi7FxymddOk1RAQ9hvnHKl38
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/customer/vehicles/66dd993c1b83abb241fee150:
+    patch:
+      tags:
+        - Customer
+      summary: updateVehicle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                color: Green
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRkMDFjMjRhODcwMTBiOGJiYmE3MDIiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjU4MDA2MzYsImV4cCI6MTcyNTgwNDIzNn0.bjPkV8R7rAarCglLmxFUi7FxymddOk1RAQ9hvnHKl38
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Customer
+      summary: deleteVehicle
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRkMDFjMjRhODcwMTBiOGJiYmE3MDIiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjU4MDA2MzYsImV4cCI6MTcyNTgwNDIzNn0.bjPkV8R7rAarCglLmxFUi7FxymddOk1RAQ9hvnHKl38
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vehicles:
+    get:
+      tags:
+        - Vehicles
+      summary: getVehicles
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjgzODcwMzAsImV4cCI6MTcyODM5NzgzMH0.ozJSOGz71-gOAOc-5EZcYIWtyX3IIvWy8fsf4q56Zh4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vehicles/category/car:
+    get:
+      tags:
+        - Vehicles
+      summary: getVehiclesByCategory
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRjZWU3MzExZDBiNGY0ZDZkMTE5ODkiLCJyb2xlIjoic2VydmljZS10ZWNobmljaWFuIiwiaWF0IjoxNzI1ODA2MTg3LCJleHAiOjE3MjU4MDk3ODd9.ovztDC0-idxFGkV0xncworQt-n-jPmb-7tpeSjuqoz8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vehicles/owner/66dd01c24a87010b8bbba702:
+    get:
+      tags:
+        - Vehicles
+      summary: getVehiclesByOwnerId
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRjZWU3MzExZDBiNGY0ZDZkMTE5ODkiLCJyb2xlIjoic2VydmljZS10ZWNobmljaWFuIiwiaWF0IjoxNzI1ODA5ODEwLCJleHAiOjE3MjU4MTM0MTB9.hCsDeoCP-Ip5qpkeGfg8KYgaXZJfQP-vGZINq0_VNVo
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vehicles/search:
+    get:
+      tags:
+        - Vehicles
+      summary: searchVehiclesByLicenseNo
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmRjZWU3MzExZDBiNGY0ZDZkMTE5ODkiLCJyb2xlIjoic2VydmljZS10ZWNobmljaWFuIiwiaWF0IjoxNzI1ODA5ODEwLCJleHAiOjE3MjU4MTM0MTB9.hCsDeoCP-Ip5qpkeGfg8KYgaXZJfQP-vGZINq0_VNVo
+        - name: licenseNo
+          in: query
+          schema:
+            type: string
+          example: ABC1234
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vehicles/66ec7f0960c3a3d1d5400c6b:
+    get:
+      tags:
+        - Vehicles
+      summary: getVehicleById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5NzAxOCwiZXhwIjoxNzI2ODAwNjE4fQ.h37zm8yvunl4n_OsQlN3ykuunfUjSx7mwOBIspKtY2w
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vehicles/66ddab26a75bae348a8a41e2:
+    patch:
+      tags:
+        - Vehicles
+      summary: updateVehicle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                color: Yellow
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzY0NDYwMiwiZXhwIjoxNzI3NjQ4MjAyfQ.JWjn4FkSKdCTyhrhlCPmIoxz5vU4NnGXQIMK7rHxb7g
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Vehicles
+      summary: deleteVehicle
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1MmRlMzA4NDMwZTk3MDFmZGRkNTQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNTgxMDczMSwiZXhwIjoxNzI1ODE0MzMxfQ.aeLnQRsDCUpdQ3old44JTrnLUKsaoFcjEbYWBrVVIrU
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/rentals:
+    get:
+      tags:
+        - Rentals
+      summary: getRentals
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzI4NjI4NSwiZXhwIjoxNzI3Mjg5ODg1fQ.4yB0uZxhDZNFJj-ac1I_M7YzPHcUYm2Jq-BhlGqQW5g
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Rentals
+      summary: createRental
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                description: Rental vehicle available at your disposal
+                images: rent1.cloudinary.com/img2.png
+                price:
+                  perHour: 60
+                  perDay: 600
+                  perWeek: 3600
+                status: unavailable
+                vehicle:
+                  category: car
+                  licenseNo: TXS3588
+                  brand: Range Rover
+                  model: Hi-endX
+                  year: 2024
+                  color: Black
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5NzAxOCwiZXhwIjoxNzI2ODAwNjE4fQ.h37zm8yvunl4n_OsQlN3ykuunfUjSx7mwOBIspKtY2w
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/rentals/search:
+    get:
+      tags:
+        - Rentals
+      summary: searchRentalsByLicenseNo
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5MzE2OCwiZXhwIjoxNzI2Nzk2NzY4fQ.5o9eBAqjqK_dAb1m-NFtbmSUid6cbIbTWXoh2BJRiFs
+        - name: licenseNo
+          in: query
+          schema:
+            type: string
+          example: h48
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/rentals/66ec7f0a60c3a3d1d5400c6d:
+    get:
+      tags:
+        - Rentals
+      summary: getRentalById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5MzE2OCwiZXhwIjoxNzI2Nzk2NzY4fQ.5o9eBAqjqK_dAb1m-NFtbmSUid6cbIbTWXoh2BJRiFs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Rentals
+      summary: updateRental
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                description: Nice rental vehicle available at your disposal
+                images: rent1.cloudinary.com/img2.png
+                price:
+                  perHour: 40
+                  perDay: 400
+                  perWeek: 2000
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5NzAxOCwiZXhwIjoxNzI2ODAwNjE4fQ.h37zm8yvunl4n_OsQlN3ykuunfUjSx7mwOBIspKtY2w
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/rentals/66ecd58ac6602bbc77e563ed:
+    delete:
+      tags:
+        - Rentals
+      summary: deleteRental
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5NzAxOCwiZXhwIjoxNzI2ODAwNjE4fQ.h37zm8yvunl4n_OsQlN3ykuunfUjSx7mwOBIspKtY2w
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/services:
+    get:
+      tags:
+        - Services
+      summary: getServices
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyODM4MDY2MiwiZXhwIjoxNzI4MzkxNDYyfQ.UP0k4RV08QMvHnuq0J3Wc2Jc6NINhwWyyaRrI6d8cPU
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Services
+      summary: createService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                category: Auto Repair
+                description: Auto repair services available at your disposal
+                subservices:
+                  - name: Brake Repair
+                    description: Repair of brakes
+                    price: 1000
+                    duration: 300
+                    availability: false
+                    thumbnail: rent1.cloudinary.com/img600.png
+                    images:
+                      - rent1.cloudinary.com/img72.png
+                    _id: 670414012242312e77dd44bd
+                  - name: Engine Repair
+                    description: Repair of engines
+                    price: 1500
+                    duration: 3000
+                    availability: false
+                    thumbnail: rent1.cloudinary.com/img600.png
+                    images:
+                      - rent1.cloudinary.com/img72.png
+                    _id: 67043c8c72edfc5e4678ee45
+                  - name: Diagnostic Scan & Electrical
+                    description: Fix software issues and electricals
+                    price: 1500
+                    duration: 3000
+                    availability: true
+                    thumbnail: rent1.cloudinary.com/img600.png
+                    images:
+                      - rent1.cloudinary.com/img72.png
+                    _id: 67043c8c72edfc5e4678ee46
+                  - name: AC Repair & Regas
+                    description: Repair of vehicle AC and regas
+                    price: 500
+                    duration: 3300
+                    availability: false
+                    thumbnail: rent1.cloudinary.com/img600.png
+                    images:
+                      - rent1.cloudinary.com/img72.png
+                    _id: 67043e1101267808749b9444
+                  - name: Oil Change
+                    description: Deal with all aspect of vehicle oil change
+                    price: 600
+                    duration: 3600
+                    availability: true
+                    thumbnail: rent1.cloudinary.com/img100.png
+                    images:
+                      - rent1.cloudinary.com/img12.png
+                    _id: 67048493da61a6cc0f4a3211
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/services/670fe7f619a67925c8ab6a9a:
+    get:
+      tags:
+        - Services
+      summary: getServiceById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Services
+      summary: updateService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                category: Body Shop
+                description: Body shop services available at your disposal
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/services/670fe7f619a67925c8ab6a9a/add-subservices:
+    patch:
+      tags:
+        - Services
+      summary: addSubservices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: Polish Headlights
+                  price: 600
+                  duration: 3600
+                  availability: true
+                  thumbnail: rent1.cloudinary.com/img100.png
+                  images:
+                    - rent1.cloudinary.com/img12.png
+                  description: Deal with all aspect of vehicle Repaint/Touch-Up
+                - name: Polish Headlights
+                  price: 600
+                  duration: 3600
+                  availability: false
+                  thumbnail: rent1.cloudinary.com/img100.png
+                  images:
+                    - rent1.cloudinary.com/img12.png
+                  description: Deal with all aspect of vehicle Polish Headlights
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTczMDQxMTkxOCwiZXhwIjoxNzMwNDMzNTE4fQ.Wsfeia8Q1XoLbDp45fC_-AQ2ZoZaQ8smy1IsfRepZ-s
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/services/670febdfc105bd70074f8bc0/edit-subservice:
+    patch:
+      tags:
+        - Services
+      summary: editSubservice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Polish Headlights
+                price: 400
+                duration: 3000
+                availability: false
+                description: Deal with all aspect of vehicle headlights polish
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/services/670fe7f619a67925c8ab6a9a/remove-subservice:
+    patch:
+      tags:
+        - Services
+      summary: removeSubservice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                _id: 670ff5205368a5f07a1e278b
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/services/670fdeb3c9ca8464eaa2d3b1:
+    delete:
+      tags:
+        - Services
+      summary: deleteService
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings/service:
+    get:
+      tags:
+        - Bookings
+      summary: getBookings
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTE2NTg5MywiZXhwIjoxNzI5MTg3NDkzfQ.TqvSeQCemSSkorYp1bzExV4gAmmO8RJD4cR3a-N9edw
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings/service/status/confirmed:
+    get:
+      tags:
+        - Bookings
+      summary: getBookingsByStatus
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings/rental/search:
+    get:
+      tags:
+        - Bookings
+      summary: searchBookingsByOwner
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: test
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings/rental/66f446b99a775c9bbb915159:
+    get:
+      tags:
+        - Bookings
+      summary: getBookingById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTA5MjU4OSwiZXhwIjoxNzI5MTE0MTg5fQ.N_76M4rSIN5N9R1MUjmiwOrwoVARBNyM1uAWBgTR1yE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings:
+    post:
+      tags:
+        - Bookings
+      summary: createBooking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                vehicle: 66ddc90ba7f6dc87dd0a3a4a
+                assignedTo:
+                  - 670ff973675636d15858d210
+                  - 670febdfc105bd70074f8bbf
+                assignedToModel: Subservice
+                description: >-
+                  Hi there, there may be additional fixes needed that i cant
+                  figure out yet. Please respond ASAP
+                schedule:
+                  pickUp: 2024-10-31T17:00
+                  dropOff: 2024-10-27T13:00
+                photos:
+                  photoBefore: https://cloudinary.com/api/licenses/pics2.jpg
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjkxMDUxNzQsImV4cCI6MTcyOTEyNjc3NH0.0YQ-GZ0_0KM27FKMrw2O09Lqi5CblLxTRqvxwvrlyt4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings/66f4548b0399afaa814c80e2:
+    patch:
+      tags:
+        - Bookings
+      summary: updateBooking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                vehicle: 66ec807260c3a3d1d5400c74
+                assignedTo: 66ec807260c3a3d1d5400c76
+                assignedToModel: Rental
+                description: Urgent please. kindly respond as soon as possible
+                schedule:
+                  pickUp: 2024-11-10T17:00
+                  dropOff: 2024-12-27T13:00
+                photos:
+                  license: https://cloudinary.com/api/licenses/pics2.jpg
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzY0NDYwMiwiZXhwIjoxNzI3NjQ4MjAyfQ.JWjn4FkSKdCTyhrhlCPmIoxz5vU4NnGXQIMK7rHxb7g
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Bookings
+      summary: deleteBooking
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzk3MDkzMCwiZXhwIjoxNzI3OTgxNzMwfQ.IY_wCbB6Zw0lZE7fkeB7d1a1Re7PY2fS271SI_i_Z3A
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/bookings/66f4548b0399afaa814c80e2/status:
+    patch:
+      tags:
+        - Bookings
+      summary: updateBookingStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: cancelled
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNzY0ODU3NywiZXhwIjoxNzI3NjU5Mzc3fQ.2cRfhmhwtyOsetazbQuerkorTCqA4dkqlp_NrTkH_FI
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/inventories:
+    get:
+      tags:
+        - Inventories
+      summary: getInventories
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzA0Nzc2NjMsImV4cCI6MTczMDQ5OTI2M30.yU2eEM-gUKdRJKKQhwEfuALFMKA5e5W9WGe8c2l8WmA
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '2'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '2'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Inventories
+      summary: createInventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Car Jack
+                description: Hydraulic car jack with 2-ton lifting capacity
+                type: Accesories
+                quantity: 30
+                price: 200
+                thumbnail: rent1.cloudinary.com/img100.png
+                images:
+                  - rent1.cloudinary.com/img12.png
+                  - rent1.cloudinary.com/img12.png
+                status: Available
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTE2NTg5MywiZXhwIjoxNzI5MTg3NDkzfQ.TqvSeQCemSSkorYp1bzExV4gAmmO8RJD4cR3a-N9edw
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/inventories/accessories:
+    get:
+      tags:
+        - Inventories
+      summary: getInventoriesByCategory
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTE2NTg5MywiZXhwIjoxNzI5MTg3NDkzfQ.TqvSeQCemSSkorYp1bzExV4gAmmO8RJD4cR3a-N9edw
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/inventories/search:
+    get:
+      tags:
+        - Inventories
+      summary: searchInventoriesByName
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTE2NTg5MywiZXhwIjoxNzI5MTg3NDkzfQ.TqvSeQCemSSkorYp1bzExV4gAmmO8RJD4cR3a-N9edw
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: Brake+Pads
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/inventories/67111585a5f47b7ffa3d9b84:
+    get:
+      tags:
+        - Inventories
+      summary: getInventoryById
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyNjc5MzE2OCwiZXhwIjoxNzI2Nzk2NzY4fQ.5o9eBAqjqK_dAb1m-NFtbmSUid6cbIbTWXoh2BJRiFs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Inventories
+      summary: updateInventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                category: accesories
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTE2NTg5MywiZXhwIjoxNzI5MTg3NDkzfQ.TqvSeQCemSSkorYp1bzExV4gAmmO8RJD4cR3a-N9edw
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Inventories
+      summary: deleteInventory
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4OTQ1NGY0MTliMjkwZDVkM2RjYmEiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTcyOTE2NTg5MywiZXhwIjoxNzI5MTg3NDkzfQ.TqvSeQCemSSkorYp1bzExV4gAmmO8RJD4cR3a-N9edw
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/carts:
+    get:
+      tags:
+        - Carts
+      summary: viewCarts
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzAwNTkwMzAsImV4cCI6MTczMDA4MDYzMH0.e3pbECOlwWxrCJNm9LLAfOM12BIHyuWr0bfJvtjkBmA
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/carts/add:
+    post:
+      tags:
+        - Carts
+      summary: addItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                item:
+                  inventory: 67111510a5f47b7ffa3d9b81
+                  quantity: 11
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzAxMjM5MzgsImV4cCI6MTczMDE0NTUzOH0.vHUzWZdp_VDimST1WBLPuyt7rnqvh-ja9M093NL2beM
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/carts/update/671eb5892d4d77284aefcadd:
+    patch:
+      tags:
+        - Carts
+      summary: updateItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                quantity: 5
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzAxMjM5MzgsImV4cCI6MTczMDE0NTUzOH0.vHUzWZdp_VDimST1WBLPuyt7rnqvh-ja9M093NL2beM
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/carts/remove/671f9d808e94b2ef6df90ea4:
+    patch:
+      tags:
+        - Carts
+      summary: removeItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzAxMjM5MzgsImV4cCI6MTczMDE0NTUzOH0.vHUzWZdp_VDimST1WBLPuyt7rnqvh-ja9M093NL2beM
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/carts/clear:
+    delete:
+      tags:
+        - Carts
+      summary: clearCart
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzAxMjM5MzgsImV4cCI6MTczMDE0NTUzOH0.vHUzWZdp_VDimST1WBLPuyt7rnqvh-ja9M093NL2beM
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: getNotifications
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzA0MTI4ODgsImV4cCI6MTczMDQzNDQ4OH0.pc4u4Wdb-4zVCLZwgOCltDtIDWi7SD8B2yB7_apluKE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/notifications/672402214a11996a058e6261:
+    patch:
+      tags:
+        - Notifications
+      summary: updateNotificationStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4MWQ3YjUyNTJkZGRmN2E0NzYyODUiLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MzA0MTI4ODgsImV4cCI6MTczMDQzNDQ4OH0.pc4u4Wdb-4zVCLZwgOCltDtIDWi7SD8B2yB7_apluKE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
