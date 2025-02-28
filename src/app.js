@@ -96,7 +96,7 @@ import adminRoutes from './routes/adminRoutes.js'
 app.use('/api/admin', adminRoutes)
 
 //=======API Documentation=======//
-import { swaggerUi, generateYML, swaggerJson } from './docs/swagger.js'
+// import { swaggerUi, generateYML, swaggerJson } from './docs/swagger.js'
 
 if (process.env.NODE_ENV !== 'production') {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJson))

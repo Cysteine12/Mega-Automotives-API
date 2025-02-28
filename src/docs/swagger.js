@@ -1,7 +1,7 @@
 import swaggerUi from 'swagger-ui-express'
 import postmanToOpenApi from 'postman-to-openapi'
-
-const swaggerJson = await import('./openapi.json', { assert: { type: 'json' } });
+// import swaggerJson from './openapi.json' assert { type: 'json' }
+const swaggerJson = await import('./openapi.json', { assert: { type: 'json' } })
 
 const generateYML = async (req, res, next) => {
     const postmanCollection = './src/docs/collection.json'
