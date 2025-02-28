@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston'
+import { createLogger, format, transports, config } from 'winston'
 import 'winston-mongodb'
 import SlackHook from 'winston-slack-webhook-transport'
 
@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
         new transports.MongoDB({
             db: process.env.MONGO_URI,
             collection: 'server_logs',
+            level: 'error',
         }),
         new SlackHook({
             webhookUrl: process.env.SLACK_WEBHOOK_URL,
@@ -32,7 +33,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const logger = createLogger({
-    level: 'info',
+    level: config.syslog.levels,
     format: format.combine(format.timestamp(), formatType),
     transports: transportsList,
 })
