@@ -55,12 +55,12 @@ const login = async (req, res, next) => {
 
         let user = await User.findOne({ email })
         if (!user) {
-            throw new NotFoundError('This email is not registered')
+            throw new NotFoundError('Invalid credentials')
         }
 
         const isMatch = await user.comparePassword(password)
         if (!isMatch) {
-            throw new ValidationError('Incorrect password')
+            throw new ValidationError('Invalid credentials')
         }
 
         if (!user.isVerified) {
